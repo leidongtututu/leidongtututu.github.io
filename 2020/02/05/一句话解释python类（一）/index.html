@@ -51,15 +51,15 @@
   };
 </script>
 
-  <meta name="description" content="最近疫情严重，出不了门，在家没事翻翻effective python，突然间从设计的角度理解了python类的三个方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。">
-<meta name="keywords" content="启发,python">
+  <meta name="description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。">
+<meta name="keywords" content="python,启发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一句话解释python类和静态方法">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;02&#x2F;05&#x2F;%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="最近疫情严重，出不了门，在家没事翻翻effective python，突然间从设计的角度理解了python类的三个方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。">
+<meta property="og:description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-02-06T13:22:42.405Z">
+<meta property="og:updated_time" content="2020-06-11T01:40:01.670Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://www.thorray.com/2020/02/05/%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89/">
@@ -190,7 +190,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://tva3.sinaimg.cn/crop.0.0.180.180.180/bdf1b9aajw1e8qgp5bmzyj2050050aa8.jpg?KID=imgbed,tva&Expires=1572770656&ssig=EVz46Ntw0c">
       <meta itemprop="name" content="ThorRay">
-      <meta itemprop="description" content="Stay hungry, stay foolish.">
+      <meta itemprop="description" content="Stay hungry Stay foolish.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -215,7 +215,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-06 21:22:42" itemprop="dateModified" datetime="2020-02-06T21:22:42+08:00">2020-02-06</time>
+                <time title="Modified: 2020-06-11 09:40:01" itemprop="dateModified" datetime="2020-06-11T09:40:01+08:00">2020-06-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,10 +254,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>最近疫情严重，出不了门，在家没事翻翻effective python，突然间从设计的角度理解了python类的三个方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。</p><a id="more"></a>
-<h4 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h4><p>这个方法可以为了避免传统创造实例化“<strong>init</strong>”的形式，等同于在类本身上创建一个新对象并实例化，这就实现了多态继承后会出现的重复内容调用的问题，可以在类中通用处理，非常方便。</p>
-<h4 id="staticmethod"><a href="#staticmethod" class="headerlink" title="@staticmethod"></a>@staticmethod</h4><p>大多数情况下，classmethod也可以通过staticmethod代替，在通过类调用时，这两者对于调用者来说是不可区分的。</p>
-<h5 id="上述二者的区别在于，因为classmethod可以接受第一个参数是cls，所以他返回的是可以是实例化对象，就可以继续查看该实例的其他属性以及方法；但是staticmethod返回就是只能是一个结果，它本身只是单纯是一个函数，想要查其他的属性，您还得要在实例化一次才行，所以推荐还是使用classmethod比较方便一些。"><a href="#上述二者的区别在于，因为classmethod可以接受第一个参数是cls，所以他返回的是可以是实例化对象，就可以继续查看该实例的其他属性以及方法；但是staticmethod返回就是只能是一个结果，它本身只是单纯是一个函数，想要查其他的属性，您还得要在实例化一次才行，所以推荐还是使用classmethod比较方便一些。" class="headerlink" title="上述二者的区别在于，因为classmethod可以接受第一个参数是cls，所以他返回的是可以是实例化对象，就可以继续查看该实例的其他属性以及方法；但是staticmethod返回就是只能是一个结果，它本身只是单纯是一个函数，想要查其他的属性，您还得要在实例化一次才行，所以推荐还是使用classmethod比较方便一些。"></a>上述二者的区别在于，因为classmethod可以接受第一个参数是cls，所以他返回的是可以是实例化对象，就可以继续查看该实例的其他属性以及方法；但是staticmethod返回就是只能是一个结果，它本身只是单纯是一个函数，想要查其他的属性，您还得要在实例化一次才行，所以推荐还是使用classmethod比较方便一些。</h5><hr>
+        <p>最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。</p><a id="more"></a>
+<blockquote>
+<p>@classmethod<br>工厂方法，简化了python的多态继承时，重复定义的问题。本质就是类似实例化“<strong>init</strong>”的形式，等同于在类本身上创建一个新对象并实例化。</p>
+</blockquote>
+<blockquote>
+<p>@staticmethod<br>没有任何类方法是classmethod不能取代的，只不过这个方法体现的只是多态继承通用的判断，也可以使用函数代替，只不过为了代码的优雅维护。</p>
+</blockquote>
+<p><strong>因为classmethod接受第一个参数是cls，但传参并不体现，但他创建了新的实例化的新对象；但是staticmethod它本身就和基本方法一样，只不过可以类直接调用而已，classmethod完全可以替代，这个静态方法可能是为了对称好看吧。</strong></p>
+<hr>
 <p>另外看到子类继承的问题，非常推荐使用super(特别是python2)，因为他规定了多类继承时候的实例化参数顺序，避免钻石类的实例化参数混乱。</p>
 <p>另外，python3还是好啊! 各种人性啊~~</p>
 <hr>
@@ -270,8 +275,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%90%AF%E5%8F%91/" rel="tag"># 启发</a>
               <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/%E5%90%AF%E5%8F%91/" rel="tag"># 启发</a>
           </div>
 
         
@@ -331,7 +336,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#classmethod"><span class="nav-number">1.</span> <span class="nav-text">@classmethod</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#staticmethod"><span class="nav-number">2.</span> <span class="nav-text">@staticmethod</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#上述二者的区别在于，因为classmethod可以接受第一个参数是cls，所以他返回的是可以是实例化对象，就可以继续查看该实例的其他属性以及方法；但是staticmethod返回就是只能是一个结果，它本身只是单纯是一个函数，想要查其他的属性，您还得要在实例化一次才行，所以推荐还是使用classmethod比较方便一些。"><span class="nav-number">2.1.</span> <span class="nav-text">上述二者的区别在于，因为classmethod可以接受第一个参数是cls，所以他返回的是可以是实例化对象，就可以继续查看该实例的其他属性以及方法；但是staticmethod返回就是只能是一个结果，它本身只是单纯是一个函数，想要查其他的属性，您还得要在实例化一次才行，所以推荐还是使用classmethod比较方便一些。</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -340,7 +344,7 @@
   <img class="site-author-image" itemprop="image" alt="ThorRay"
     src="https://tva3.sinaimg.cn/crop.0.0.180.180.180/bdf1b9aajw1e8qgp5bmzyj2050050aa8.jpg?KID=imgbed,tva&Expires=1572770656&ssig=EVz46Ntw0c">
   <p class="site-author-name" itemprop="name">ThorRay</p>
-  <div class="site-description" itemprop="description" style="margin-top: 10px;">Stay hungry, stay foolish.</div>
+  <div class="site-description" itemprop="description" style="margin-top: 10px;">Stay hungry Stay foolish.</div>
 </div>
 <div class="site-state-wrap motion-element" style="margin-top: 20px;">
   <nav class="site-state">
