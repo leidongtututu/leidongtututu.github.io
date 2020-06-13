@@ -1148,7 +1148,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #1dc3de;
+  background: #c85232;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2373,4 +2373,8 @@ hr {
 }
 .sub-menu .menu-item {
   display: inline-block;
+}
+.sidebar {
+  background-image: url("https://wx4.sinaimg.cn/mw1024/bdf1b9aaly1ge4gb65wxxj23282ao4qr.jpg");
+  background-size: contain;
 }
