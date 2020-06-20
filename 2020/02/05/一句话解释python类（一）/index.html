@@ -59,7 +59,7 @@
 <meta property="og:site_name" content="ThorRay&#39;s Story">
 <meta property="og:description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-06-13T05:30:59.810Z">
+<meta property="og:updated_time" content="2020-06-20T15:00:53.062Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://www.thorray.com/2020/02/05/%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89/">
@@ -215,7 +215,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-13 13:30:59" itemprop="dateModified" datetime="2020-06-13T13:30:59+08:00">2020-06-13</time>
+                <time title="Modified: 2020-06-20 23:00:53" itemprop="dateModified" datetime="2020-06-20T23:00:53+08:00">2020-06-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,12 +255,12 @@
 
       
         <p>最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。</p><a id="more"></a>
-<blockquote>
-<p>@classmethod<br>工厂方法，简化了python的多态继承时，重复定义的问题。本质就是类似实例化“<strong>init</strong>”的形式，等同于在类本身上创建一个新对象并实例化。</p>
-</blockquote>
-<blockquote>
-<p>@staticmethod<br>没有任何类方法是classmethod不能取代的，只不过这个方法体现的只是多态继承通用的判断，也可以使用函数代替，只不过为了代码的优雅维护。</p>
-</blockquote>
+<p><strong>**</strong> @classmethod  </p>
+<ol>
+<li>因为第一个参数是cls，本质就是第二次init，等同于在类本身上创建一个新对象。</li>
+<li>可以作为工厂方法，在子类继承他的时候，传入的cls也是子类而非父类，这样就可以实现对象的多态特性，即每个子类都可得到不同的结果。</li>
+</ol>
+<p><strong>**</strong> @staticmethod<br>没有任何类方法是classmethod不能取代的，只不过这个方法体现的只是多态继承通用的判断，也可以使用函数代替，只不过为了代码的优雅维护。</p>
 <p><strong>因为classmethod接受第一个参数是cls，但传参并不体现，但他创建了新的实例化的新对象；但是staticmethod它本身就和基本方法一样，只不过可以类直接调用而已，classmethod完全可以替代，这个静态方法可能是为了对称好看吧。</strong></p>
 <hr>
 <p>另外看到子类继承的问题，非常推荐使用super(特别是python2)，因为他规定了多类继承时候的实例化参数顺序，避免钻石类的实例化参数混乱。</p>
