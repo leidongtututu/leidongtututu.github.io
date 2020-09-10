@@ -51,15 +51,15 @@
   };
 </script>
 
-  <meta name="description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。">
+  <meta name="description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。@classmethod">
 <meta name="keywords" content="python,启发">
 <meta property="og:type" content="article">
-<meta property="og:title" content="类方法的妙用">
+<meta property="og:title" content="类方法的意义">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;02&#x2F;05&#x2F;%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。">
+<meta property="og:description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。@classmethod">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-06-20T15:00:53.062Z">
+<meta property="og:updated_time" content="2020-09-10T14:47:09.501Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://www.thorray.com/2020/02/05/%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89/">
@@ -76,7 +76,7 @@
   };
 </script>
 
-  <title>类方法的妙用 | ThorRay's Story</title>
+  <title>类方法的意义 | ThorRay's Story</title>
   
 
 
@@ -198,7 +198,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          类方法的妙用
+          类方法的意义
         </h1>
 
         <div class="post-meta">
@@ -215,7 +215,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-20 23:00:53" itemprop="dateModified" datetime="2020-06-20T23:00:53+08:00">2020-06-20</time>
+                <time title="Modified: 2020-09-10 22:47:09" itemprop="dateModified" datetime="2020-09-10T22:47:09+08:00">2020-09-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,17 +254,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前用的时候也没有深层次的想过，只是知道怎么用，什么时候该用哪个。这次深入理解，突然让我有些感触，想分享下其重点。</p><a id="more"></a>
-<p><strong>**</strong> @classmethod  </p>
+        <p>最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。</p><p><strong>@classmethod</strong>  </p><a id="more"></a>
+
 <ol>
-<li>因为第一个参数是cls，本质就是第二次init，等同于在类本身上创建一个新对象。</li>
-<li>可以作为工厂方法，在子类继承他的时候，传入的cls也是子类而非父类，这样就可以实现对象的多态特性，即每个子类都可得到不同的结果。</li>
+<li>因为第一个参数是cls，本质就是自己另构的init，等同于在类本身上实例化了一个新对象。这样做我的了解就是避免了init改原有参数，会影响子类等，用一个动态类方法解决新需要。</li>
+<li>子类继承的时候是可以重写的，所以作为工厂方法，可以在针对特定子类重写，比较方便。也符合类的多态性。</li>
+<li>还有一种用法比较推荐的，差不多功能性的工具方法用此方法写成，非常优雅整洁。比在一个方法里if else舒服一百倍。</li>
 </ol>
-<p><strong>**</strong> @staticmethod<br>没有任何类方法是classmethod不能取代的，只不过这个方法体现的只是多态继承通用的判断，也可以使用函数代替，只不过为了代码的优雅维护。</p>
-<p><strong>因为classmethod接受第一个参数是cls，但传参并不体现，但他创建了新的实例化的新对象；但是staticmethod它本身就和基本方法一样，只不过可以类直接调用而已，classmethod完全可以替代，这个静态方法可能是为了对称好看吧。</strong></p>
-<hr>
-<p>另外看到子类继承的问题，非常推荐使用super(特别是python2)，因为他规定了多类继承时候的实例化参数顺序，避免钻石类的实例化参数混乱。</p>
-<p>另外，python3还是好啊! 各种人性啊~~</p>
+<p><strong>@staticmethod</strong><br>没有任何类方法是classmethod不能取代的，只说这么一句。</p>
 <hr>
 
     </div>
@@ -354,7 +351,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -367,7 +364,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -487,7 +484,7 @@
         config: {page: {
             url: "http://www.thorray.com/2020/02/05/%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89/",
             identifier: "2020/02/05/一句话解释python类（一）/",
-            title: "类方法的妙用"
+            title: "类方法的意义"
           }
         }
       });
