@@ -51,18 +51,21 @@
   };
 </script>
 
-  <meta name="description" content="浅谈我对python中的动态补丁：monkey patch的理解和应用。最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。">
-<meta name="keywords" content="python,设计模式">
+  <meta name="description" content="数据库的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引btree的理解。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
+<meta name="keywords" content="索引,数据库,数据结构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈我对python中的monkey patch">
-<meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;09&#x2F;25&#x2F;%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch&#x2F;index.html">
+<meta property="og:title" content="对数据库的索引的简单理解">
+<meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;11&#x2F;09&#x2F;%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="浅谈我对python中的动态补丁：monkey patch的理解和应用。最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。">
+<meta property="og:description" content="数据库的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引btree的理解。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-09-25T13:57:48.420Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222644329.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222749556.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:updated_time" content="2020-11-09T14:41:26.727Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222644329.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 
-<link rel="canonical" href="http://www.thorray.com/2020/09/25/%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch/">
+<link rel="canonical" href="http://www.thorray.com/2020/11/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/">
 
 
 <script id="page-configurations">
@@ -76,7 +79,7 @@
   };
 </script>
 
-  <title>浅谈我对python中的monkey patch | ThorRay's Story</title>
+  <title>对数据库的索引的简单理解 | ThorRay's Story</title>
   
 
 
@@ -185,7 +188,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
-    <link itemprop="mainEntityOfPage" href="http://www.thorray.com/2020/09/25/%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch/">
+    <link itemprop="mainEntityOfPage" href="http://www.thorray.com/2020/11/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://tva3.sinaimg.cn/crop.0.0.180.180.180/bdf1b9aajw1e8qgp5bmzyj2050050aa8.jpg?KID=imgbed,tva&Expires=1572770656&ssig=EVz46Ntw0c">
@@ -198,7 +201,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          浅谈我对python中的monkey patch
+          对数据库的索引的简单理解
         </h1>
 
         <div class="post-meta">
@@ -209,7 +212,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-09-25 00:07:35 / Modified: 21:57:48" itemprop="dateCreated datePublished" datetime="2020-09-25T00:07:35+08:00">2020-09-25</time>
+              <time title="Created: 2020-11-09 22:39:34 / Modified: 22:41:26" itemprop="dateCreated datePublished" datetime="2020-11-09T22:39:34+08:00">2020-11-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -232,8 +235,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/09/25/%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/09/25/浅谈我对python中的monkey-patch/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/11/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/11/09/数据库索引/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -248,16 +251,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="浅谈我对python中的动态补丁：monkey-patch的理解和应用。"><a href="#浅谈我对python中的动态补丁：monkey-patch的理解和应用。" class="headerlink" title="浅谈我对python中的动态补丁：monkey patch的理解和应用。"></a>浅谈我对python中的动态补丁：monkey patch的理解和应用。</h3><p>最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。</p><p>monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。</p><a id="more"></a>
+        <p>数据库的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引btree的理解。</p><p>b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。</p><a id="more"></a>
 
-<p>在实际的运用中，经常会有调用底层类或者第三方包类时，对其功能不满足，从而需要改写的情况。这时候就可以对其进行patch。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Foo.get_sum = get_sum</span><br><span class="line">Foo().get_sum</span><br></pre></td></tr></table></figure>
-
-<p>上面是对原类进行动态替换的一个简单例子，我们可以改原来类，代价比较大，而且不单单是去改原类增加if  else那么简单，我们需要对其进行分析抽象化，这才是对底层基类最合适的修改。<br>可能有人会问为什么不做子类，继承重新改方法。这是可行的，但是忽略了使用monkey patch的前提，尽可能的少改动代码，做动态的替换。</p>
-<p>其实，解决这个问题有很多的方法，如果我可以对基类重新分析重构，我会使用hook对这个case进行挂钩处理。但是在最快的时间最简单的处理模式，还是monkey patch合适一些。</p>
-<p><strong>它对那些临时提需求，想把各种效果看完而又不下单的客户来说是性价比最高的解决方法。</strong></p>
-<p>尽管monkey patch还能做很多的事情，有些也超出我所掌握的范畴。但在这个应用方面上，我其实是有一点的排斥的，我们不能因为有了这个”贴膏药”式的补救措施，就忽略了对模块架构的长远布局，“膏药”越贴越多，逻辑也会越改越混乱，这些对于一个系统来说是不会有任何提升的。</p>
-<p>反而我们对底层进行架构的时候就应该提前考虑他的通用性与扩展性，哪怕临时做了补丁，后面稳定了也方便对底层进行更新。这才是一个优秀程序员的良知和义务。</p>
+<p><strong>btree</strong>有下面有几个特征:</p>
+<ol>
+<li>每个节点都有一个key,data。key就是索主键，data就是数据。</li>
+<li>如果不是终端节点，每个节点有n个分支。</li>
+<li>所有的终端节点都是在同一层。</li>
+<li>终端节点没有指针，其余节点是有指针的指向它的下一层数据范围。<br><img src="https://img-blog.csdnimg.cn/20201109222644329.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li>
+</ol>
+<hr>
+<p><strong>b+tree</strong>是在btree上的一种优化，它和btree的区别有下面两点。</p>
+<ol>
+<li>所有的终端节点才存有数据，其他节点只放指针和key。</li>
+<li>所有的终端节点用链表链接。<br><img src="https://img-blog.csdnimg.cn/20201109222749556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li>
+</ol>
+<p>这样同样的页大小，间接放置的索引值增多，索引量加大，一次性读入内存的关键词加多，相对的io读写次数下降，效率就会提升。另外，终端链表可以快速查找范围数据也加快了查询。</p>
+<hr>
+<p>在建立索引时有不同的索引类型，对于不同的场景选择不同的索引，使其达到最好的索引效果。并不是加索引检索一定会加快，也不是索引加的越多就越好，一切要从实际出发，数据结构这里知识博大精深，我也只是管中窥，先说几个常用的索引，后面有时间再来分享。</p>
+<p><strong>聚合索引</strong></p>
+<p>每个表只有一个，因为它决定了数据的物理地址顺序和索引顺序是一致的，所以只有一个。会有人默认id作为聚合索引，个人感觉是不合适的，它强调的是顺序也是有序范围，我基本上在实践中是看不到查id范围的，所以用id作为聚合索引有些浪费，我个人感觉时间之类的查询是比较频繁的，而且是不易更改的，因为更改聚合索引是比较麻烦的，每次更新会重新排序，所以对更改频繁的字段不是很建议。</p>
+<p><strong>非聚合索引</strong></p>
+<p>联合索引和普通索引，可以有多个。联合索引使用多个字段联合查询，遵循最左侧原理，使用频繁的字段靠左，可以提高速度。例如abc联合索引的本质就是分别创建a ab abc的索引，普通索引就是分别建立a b c的索引。当查a and b时，联合就比较快，而查b and c或者a or b时普通就比较快。</p>
 
     </div>
 
@@ -267,25 +282,23 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/python/" rel="tag"># python</a>
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag"># 设计模式</a>
+              <a href="/tags/%E7%B4%A2%E5%BC%95/" rel="tag"># 索引</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/08/06/django/" rel="next" title="对django项目结构的一点优化">
-                  <i class="fa fa-chevron-left"></i> 对django项目结构的一点优化
+                <a href="/2020/10/28/git%E5%AE%9E%E8%B7%B5%E4%B8%80/" rel="next" title="git的合并">
+                  <i class="fa fa-chevron-left"></i> git的合并
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/10/28/git%E5%AE%9E%E8%B7%B5%E4%B8%80/" rel="prev" title="git的合并">
-                  git的合并 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -331,7 +344,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#浅谈我对python中的动态补丁：monkey-patch的理解和应用。"><span class="nav-number">1.</span> <span class="nav-text">浅谈我对python中的动态补丁：monkey patch的理解和应用。</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -478,9 +490,9 @@
       DISQUS.reset({
         reload: true,
         config: {page: {
-            url: "http://www.thorray.com/2020/09/25/%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch/",
-            identifier: "2020/09/25/浅谈我对python中的monkey-patch/",
-            title: "浅谈我对python中的monkey patch"
+            url: "http://www.thorray.com/2020/11/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/",
+            identifier: "2020/11/09/数据库索引/",
+            title: "对数据库的索引的简单理解"
           }
         }
       });
