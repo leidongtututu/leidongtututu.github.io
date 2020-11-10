@@ -51,18 +51,18 @@
   };
 </script>
 
-  <meta name="description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。今天要说的关键就是合并，说到合并就必须要说到这最纠结的两兄弟了。">
+  <meta name="description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。">
 <meta name="keywords" content="git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git的合并">
+<meta property="og:title" content="对git合并分支的理解和应用">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;10&#x2F;28&#x2F;git%E5%AE%9E%E8%B7%B5%E4%B8%80&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。今天要说的关键就是合并，说到合并就必须要说到这最纠结的两兄弟了。">
+<meta property="og:description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231234337.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231716354.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231911138.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:updated_time" content="2020-10-29T14:26:47.120Z">
+<meta property="og:updated_time" content="2020-11-10T13:49:48.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231234337.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 
@@ -80,7 +80,7 @@
   };
 </script>
 
-  <title>git的合并 | ThorRay's Story</title>
+  <title>对git合并分支的理解和应用 | ThorRay's Story</title>
   
 
 
@@ -202,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          git的合并
+          对git合并分支的理解和应用
         </h1>
 
         <div class="post-meta">
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-29 22:26:47" itemprop="dateModified" datetime="2020-10-29T22:26:47+08:00">2020-10-29</time>
+                <time title="Modified: 2020-11-10 21:49:48" itemprop="dateModified" datetime="2020-11-10T21:49:48+08:00">2020-11-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,24 +258,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。今天要说的关键就是合并，说到合并就必须要说到这最纠结的两兄弟了。</p><a id="more"></a>
+        <p>Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。</p><a id="more"></a>
 <hr>
-<h2 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h2><p>git merge全称其实是git merge –ff,ff就是fast forward——快进！</p>
-<h5 id="在这里插一下ff的解释："><a href="#在这里插一下ff的解释：" class="headerlink" title="在这里插一下ff的解释："></a>在这里插一下ff的解释：</h5><p>在合入分支没有任何提交的情况下，它的指针顺着被合入分支的提交线一路下去指向最后一个节点上。它不会产生merge commit，所以是快进，非常轻便。(右图所示)<br><img src="https://img-blog.csdnimg.cn/20201028231234337.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="图1"></p>
-<p>那如果需要合入的细节，就需要这个命令了：<strong>git merge –no-off</strong>。(如左图所示)<br>它的作用就是把被合入分支的详细提交情况都显示出来，然后在最后产生一个merge的新commit，让head指向它。我们就可以清楚的看见这次的merge是怎么来的。</p>
-<p>总结下，ff是head最终指向被合入分支的最后一次提交，而no-ff是指向他们的合入。<br>但是如果此时要reset，这两种方式的reset也是不同，第一种回到了被合入分支的commit点(并不是本分支的)，而第二种才是真正回到了当前分支的上一个提交点。</p>
-<p><strong>以上说的这种情况是有前提的，前提就是合入分支在没有任何提交。而下面要说的才是我们绝大多数的merge。</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20201028231716354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>在两个分支基于最近公共点都有新提交，这样git merge会将两个分支的最后节点做合并产生新的节点，并且生成一个merge的commit记录。它是严格按时间线记录了分支的提交记录。这样的缺点就是在提交线上会分叉，看起来很乱，而且不知道你的分支和目标分支的head在哪。</p>
+<h2 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h2><p>git merge全称其实是git merge –ff, ff 就是fast forward。<br>在当前分支没有任何提交的情况下，它的指针着被合入分支的提交线一路下去可以走到被合入分支上，就像是指针快进到另一个分支上，它就像是快进一样，它不会产生任何merge commit，没办法查到合入的记录。(下右图所示)<br><img src="https://img-blog.csdnimg.cn/20201028231234337.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="图1"></p>
+<p>如果在上述情况下，要知道合入的细节，那就要用<strong>git merge –no-off</strong>。(如上左图所示)<br>它的作用就是把被合入分支的详细提交情况都显示出来，然后在最后产生一个merge的新commit。我们就可以清楚的看见这次的merge是怎么来的。</p>
+<p><strong>总结下，ff是head最终指向被合入分支的最后一次提交，而no-ff是指向他们的合入。这种情况下，多说一句，如果要reset，这两种方式的reset也是不同，ff方式的reset因为没有快进，所以是回到了被合入分支的commit点(并不是本分支的)，而–no-ff才是真正回到了当前分支的上一个提交点。</strong></p>
+<p>以上这种情况有前提的，前提是当前分支无任何提交。下面这种情况是我们绝大多数的merge情况。<br><img src="https://img-blog.csdnimg.cn/20201028231716354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>在两个分支的最近公共点都有新的提交，这样git merge会将两个分支的最后节点做合并产生新的节点，并且生成一个merge的commit记录。它是严格按时间线记录了分支的提交记录，方便查找。但是缺点是在提交线上会分叉，很乱，而且不能直观的看到你的分支和目标分支的差距。</p>
 <hr>
-<h2 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a><strong>git rebase</strong></h2><p>参考了很多的博客，rebase的意思用变基是比较准确的。<strong>但是要遵守rebase黄金法则，no one shall rebase a shared branch.</strong><br><img src="https://img-blog.csdnimg.cn/20201028231911138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="图3"></p>
-<p>rebase是在共同父提交分支上，把被合入分支的提交原封复制到当前分支，再把当前分支的提交放弃，接着刚才的拷过来的提交线上产生新的提交。整个过程就是一个fast forward，不会产生merge commit。这样就像mywork是基于origin分支一样。</p>
-<p>它的本意就是让每个开发分支，都保持在一个基准上。这样在提交线上，就是一条直线，你可以清楚看见你领先于被合入分支多少个commit。对于开发分支很清晰，简洁。这就是它和merge的区别。</p>
-<p>另外rebase也可以压缩commit请求，在提pr时候发现有过多无用的commit，可以git rebase head～压缩commit。</p>
+<h2 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a><strong>git rebase</strong></h2><p>参考了很多的博客，rebase用变基是比较准确的。<strong>但是要遵守rebase黄金法则，no one shall rebase a shared branch.</strong><br><img src="https://img-blog.csdnimg.cn/20201028231911138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="图3"></p>
+<p>rebase是在最近公共点上，先删除当前分支的提交，把被合入分支的提交整体拷到当前分支，接着在这个基础上，把之前删除的当前分支的提交产生新的提交，所以称为“变基”。整个过程就像是一个fast forward，也不会产生merge commit。rebase的本意是让每个开发分支，都保持在一个基准上，这样在提交线上，就像是一条直线。可以清楚看见分支的各个head位置。</p>
+<p>另外rebase可以压缩commit请求，在提pr时候，可以git rebase head～压缩commit。</p>
 <hr>
-<p>对于我这个不算强迫也不算洁癖的人来说，这两个命令都能满足我的合并需求。但凡是存在的肯定是合理的，我认为还是取决于项目管理情况。说说我平时的使用情况吧。</p>
+<p>对于这两个命令我也难以清楚的分清界限，但凡是存在的肯定是合理的。我认为还是取决于项目的使用和管理，分享下我平时的使用。</p>
 <ol>
-<li>从远端同步到master使用git pull –rebase，可以减少一些无用的merge提交记录，让提交线变得简单，另外我的master是只拉代码，是绝对不会提交pr的，所以不会同开发者冲突！</li>
-<li>在feature分支合并是git rebase master，会清晰看出来你的分支和master的指针指向的。如果是共同分支开发，肯定是使用merge。</li>
+<li>从远端同步到master使用git pull –no-ff，清晰的记录每个人的提交和合入记录。</li>
+<li>在feature分支合并是用git rebase master，让自己的提交线变得简单。但如果是共同分支开发，使用merge。</li>
 </ol>
 
     </div>
@@ -293,8 +290,8 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/09/25/%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch/" rel="next" title="浅谈我对python中的monkey patch">
-                  <i class="fa fa-chevron-left"></i> 浅谈我对python中的monkey patch
+                <a href="/2020/09/25/%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch/" rel="next" title="浅谈我对python中monkey patch的理解">
+                  <i class="fa fa-chevron-left"></i> 浅谈我对python中monkey patch的理解
                 </a>
             </div>
 
@@ -349,7 +346,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#git-merge"><span class="nav-number">1.</span> <span class="nav-text">git merge</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在这里插一下ff的解释："><span class="nav-number">1.0.0.1.</span> <span class="nav-text">在这里插一下ff的解释：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-rebase"><span class="nav-number">2.</span> <span class="nav-text">git rebase</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#git-merge"><span class="nav-number">1.</span> <span class="nav-text">git merge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-rebase"><span class="nav-number">2.</span> <span class="nav-text">git rebase</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -498,7 +495,7 @@
         config: {page: {
             url: "http://www.thorray.com/2020/10/28/git%E5%AE%9E%E8%B7%B5%E4%B8%80/",
             identifier: "2020/10/28/git实践一/",
-            title: "git的合并"
+            title: "对git合并分支的理解和应用"
           }
         }
       });
