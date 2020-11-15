@@ -62,7 +62,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231234337.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231716354.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231911138.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:updated_time" content="2020-11-10T13:49:48.761Z">
+<meta property="og:updated_time" content="2020-11-15T08:08:57.032Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231234337.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-10 21:49:48" itemprop="dateModified" datetime="2020-11-10T21:49:48+08:00">2020-11-10</time>
+                <time title="Modified: 2020-11-15 16:08:57" itemprop="dateModified" datetime="2020-11-15T16:08:57+08:00">2020-11-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -266,7 +266,7 @@
 <p>以上这种情况有前提的，前提是当前分支无任何提交。下面这种情况是我们绝大多数的merge情况。<br><img src="https://img-blog.csdnimg.cn/20201028231716354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>在两个分支的最近公共点都有新的提交，这样git merge会将两个分支的最后节点做合并产生新的节点，并且生成一个merge的commit记录。它是严格按时间线记录了分支的提交记录，方便查找。但是缺点是在提交线上会分叉，很乱，而且不能直观的看到你的分支和目标分支的差距。</p>
 <hr>
 <h2 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a><strong>git rebase</strong></h2><p>参考了很多的博客，rebase用变基是比较准确的。<strong>但是要遵守rebase黄金法则，no one shall rebase a shared branch.</strong><br><img src="https://img-blog.csdnimg.cn/20201028231911138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="图3"></p>
-<p>rebase是在最近公共点上，先删除当前分支的提交，把被合入分支的提交整体拷到当前分支，接着在这个基础上，把之前删除的当前分支的提交产生新的提交，所以称为“变基”。整个过程就像是一个fast forward，也不会产生merge commit。rebase的本意是让每个开发分支，都保持在一个基准上，这样在提交线上，就像是一条直线。可以清楚看见分支的各个head位置。</p>
+<p>rebase是先删除当前分支的提交，然后把被合入分支的所有提交都复制到本分支上，再顺着提交线把刚才删除的本分支提交重新生成一下基于这个之上，所以称为“变基”。rebase的本意是让当前的开发分支保持在一个基准上，这样在提交线上可以看到我们和主分支的head在哪个位置，而且可以把我们领先未合入的提交显示在最上面，整个过程不会产生merge的记录，所以自然也不会按时间线显示提交记录。</p>
 <p>另外rebase可以压缩commit请求，在提pr时候，可以git rebase head～压缩commit。</p>
 <hr>
 <p>对于这两个命令我也难以清楚的分清界限，但凡是存在的肯定是合理的。我认为还是取决于项目的使用和管理，分享下我平时的使用。</p>
