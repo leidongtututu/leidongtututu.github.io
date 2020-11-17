@@ -51,17 +51,18 @@
   };
 </script>
 
-  <meta name="description" content="数据库的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引btree的理解。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
+  <meta name="description" content="db的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
 <meta name="keywords" content="索引,数据库,数据结构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对数据库的索引的简单理解">
+<meta property="og:title" content="对数据库索引的一些简单理解">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;11&#x2F;09&#x2F;%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="数据库的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引btree的理解。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
+<meta property="og:description" content="db的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222644329.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222749556.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:updated_time" content="2020-11-09T14:41:26.727Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201117221553912.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:updated_time" content="2020-11-17T14:16:28.319Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222644329.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 
@@ -79,7 +80,7 @@
   };
 </script>
 
-  <title>对数据库的索引的简单理解 | ThorRay's Story</title>
+  <title>对数据库索引的一些简单理解 | ThorRay's Story</title>
   
 
 
@@ -201,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          对数据库的索引的简单理解
+          对数据库索引的一些简单理解
         </h1>
 
         <div class="post-meta">
@@ -210,10 +211,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-11-09 22:39:34 / Modified: 22:41:26" itemprop="dateCreated datePublished" datetime="2020-11-09T22:39:34+08:00">2020-11-09</time>
+              <time title="Created: 2020-11-09 22:39:34" itemprop="dateCreated datePublished" datetime="2020-11-09T22:39:34+08:00">2020-11-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-11-17 22:16:28" itemprop="dateModified" datetime="2020-11-17T22:16:28+08:00">2020-11-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -251,7 +258,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>数据库的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引btree的理解。</p><p>b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。</p><a id="more"></a>
+        <p>db的知识又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。</p><p>b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。</p><a id="more"></a>
 
 <p><strong>btree</strong>有下面有几个特征:</p>
 <ol>
@@ -268,11 +275,15 @@
 </ol>
 <p>这样同样的页大小，间接放置的索引值增多，索引量加大，一次性读入内存的关键词加多，相对的io读写次数下降，效率就会提升。另外，终端链表可以快速查找范围数据也加快了查询。</p>
 <hr>
-<p>在建立索引时有不同的索引类型，对于不同的场景选择不同的索引，使其达到最好的索引效果。并不是加索引检索一定会加快，也不是索引加的越多就越好，一切要从实际出发，数据结构这里知识博大精深，我也只是管中窥，先说几个常用的索引，后面有时间再来分享。</p>
+<p>在建立索引时有不同的索引类型，对于不同的场景选择不同的索引，使其达到最好的索引效果。但并不是加索引检索一定会加快，也不是索引加的越多就越好，一切要从实际出发，这里博大精深，我也只是管中窥，先说几个常用的索引，后面有时间再来分享。</p>
+<p><strong>主键</strong></p>
+<p>这里先说下主键，主键是唯一索引的一种，并且不能有null的记录存在，但唯一索引并不一定是主键，唯一索引可以很多，并且允许为null。我们一般都手动设置id为主键，当然也可以设置其他字段。如果我们不设置主键，sql会从唯一主键中挑出一个没有null的字段作为主键；但是如果这也不满足，name它会自己产生一个id设置为主键，我们可以用_rowid来查这个主键的内容。</p>
 <p><strong>聚合索引</strong></p>
-<p>每个表只有一个，因为它决定了数据的物理地址顺序和索引顺序是一致的，所以只有一个。会有人默认id作为聚合索引，个人感觉是不合适的，它强调的是顺序也是有序范围，我基本上在实践中是看不到查id范围的，所以用id作为聚合索引有些浪费，我个人感觉时间之类的查询是比较频繁的，而且是不易更改的，因为更改聚合索引是比较麻烦的，每次更新会重新排序，所以对更改频繁的字段不是很建议。</p>
+<p>当主键产生后，会根据主键生成这张表的唯一一种聚合索引，他的物理顺序和索引顺序是相同的，所以有更快的检索速度。经常看到的就是用id作为聚合索引，但是根据业务，对于时间记录的表，会使用时间作为聚合索引也是不错的实践选择。但是更改聚合索引是比较麻烦的，每次更新会重新排序，所以不适合频繁更新的字段，对于自增型还是比较友好的。</p>
 <p><strong>非聚合索引</strong></p>
 <p>联合索引和普通索引，可以有多个。联合索引使用多个字段联合查询，遵循最左侧原理，使用频繁的字段靠左，可以提高速度。例如abc联合索引的本质就是分别创建a ab abc的索引，普通索引就是分别建立a b c的索引。当查a and b时，联合就比较快，而查b and c或者a or b时普通就比较快。</p>
+<p><strong>覆盖索引</strong></p>
+<p>对于主键的索引形式，就是主键key和数据关联一起的b+tree形式，而其他索引的结构是其他索引key和主键key的关联b+tree形式。所以一般索引需要通过本索引key先查到主键的key，然后再按主键查到数据。这整个过程叫“回表”，其中在最后一步找到了主键后的查询就叫做“覆盖索引”。<br><img src="https://img-blog.csdnimg.cn/20201117221553912.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 
     </div>
 
@@ -492,7 +503,7 @@
         config: {page: {
             url: "http://www.thorray.com/2020/11/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/",
             identifier: "2020/11/09/数据库索引/",
-            title: "对数据库的索引的简单理解"
+            title: "对数据库索引的一些简单理解"
           }
         }
       });
