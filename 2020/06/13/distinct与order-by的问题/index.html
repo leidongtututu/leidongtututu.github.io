@@ -52,7 +52,7 @@
 </script>
 
   <meta name="description" content="当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：">
-<meta name="keywords" content="django,python,ORM">
+<meta name="keywords" content="python,django,ORM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单谈谈django ORM中distinct与order by的应用">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;06&#x2F;13&#x2F;distinct%E4%B8%8Eorder-by%E7%9A%84%E9%97%AE%E9%A2%98&#x2F;index.html">
@@ -270,8 +270,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/django/" rel="tag"># django</a>
               <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/django/" rel="tag"># django</a>
               <a href="/tags/ORM/" rel="tag"># ORM</a>
           </div>
 
@@ -350,14 +350,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
