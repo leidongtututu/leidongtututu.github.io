@@ -54,7 +54,7 @@
   <meta name="description" content="db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
 <meta name="keywords" content="索引,数据库,数据结构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="谈谈我对数据库索引的简单理解">
+<meta property="og:title" content="谈谈我对数据库索引的理解和应用">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;11&#x2F;09&#x2F;%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
 <meta property="og:description" content="db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
@@ -62,7 +62,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222644329.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222749556.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201117221553912.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:updated_time" content="2020-11-18T13:55:33.656Z">
+<meta property="og:updated_time" content="2020-12-03T14:09:41.510Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222644329.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 
@@ -80,7 +80,7 @@
   };
 </script>
 
-  <title>谈谈我对数据库索引的简单理解 | ThorRay's Story</title>
+  <title>谈谈我对数据库索引的理解和应用 | ThorRay's Story</title>
   
 
 
@@ -202,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          谈谈我对数据库索引的简单理解
+          谈谈我对数据库索引的理解和应用
         </h1>
 
         <div class="post-meta">
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-18 21:55:33" itemprop="dateModified" datetime="2020-11-18T21:55:33+08:00">2020-11-18</time>
+                <time title="Modified: 2020-12-03 22:09:41" itemprop="dateModified" datetime="2020-12-03T22:09:41+08:00">2020-12-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -302,8 +302,8 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/10/28/git%E5%AE%9E%E8%B7%B5%E4%B8%80/" rel="next" title="对git合并分支的理解和应用">
-                  <i class="fa fa-chevron-left"></i> 对git合并分支的理解和应用
+                <a href="/2020/10/28/git%E5%AE%9E%E8%B7%B5%E4%B8%80/" rel="next" title="git合并分支的理解和应用">
+                  <i class="fa fa-chevron-left"></i> git合并分支的理解和应用
                 </a>
             </div>
 
@@ -373,7 +373,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -386,7 +386,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -506,7 +506,7 @@
         config: {page: {
             url: "http://www.thorray.com/2020/11/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/",
             identifier: "2020/11/09/数据库索引/",
-            title: "谈谈我对数据库索引的简单理解"
+            title: "谈谈我对数据库索引的理解和应用"
           }
         }
       });
