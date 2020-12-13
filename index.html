@@ -254,16 +254,14 @@
 
       
           <h2 id="一个小实验"><a href="#一个小实验" class="headerlink" title="一个小实验"></a>一个小实验</h2><p>python的多线程工作其实是分时复用，因为有GIL锁导致在某个时间段中只有一个线程在使用cpu，所以他难以发挥cpu多核的优势，这样也就导致python的多线程不适合执行计算密集的工作。而且重要的是在多线程中存在着数据安全的问题，我在近日使用的时候发现了2和3版本中的一些小差异，因此写了个例子来看看。</p>
-<figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading </span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">start = time.time()</span><br><span class="line"></span><br><span class="line">num = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">count</span><span class="params">()</span>：</span></span><br><span class="line"><span class="function">    <span class="title">global</span> <span class="title">num</span></span></span><br><span class="line"><span class="function">    <span class="title">for</span> <span class="title">i</span> <span class="title">in</span> <span class="title">range</span><span class="params">(<span class="number">10000</span>)</span>:</span></span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">thread_list = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    t = threading.Thread(target=count)</span><br><span class="line">    thread_lsit.append(t)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> thread_list:</span><br><span class="line">    i.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> thread_list:</span><br><span class="line">    i.join()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"costs"</span>, time.time()-start)</span><br></pre></td></tr></table></div></figure>
-
-<p>对于上面的例子，我们分别用5个线程，每个分别加到10000，然后分别用py2和py3执行后得到：<br><img src="https://img-blog.csdnimg.cn/20201130214346815.png" alt="在这里插入图片描述"><br>可以看到3版本中不仅对数据的安全有很大的提升，而且时间耗时也有了很大的减少。</p>
-<p>刚看到这里使我很惊讶，我还以为3里面对线程做了大的修改，导致这里线程已经变成安全的了。于是我把每个线程的加数加到200000，在分别用py2和py3执行后得到：<br><img src="https://img-blog.csdnimg.cn/20201130215249529.png" alt="在这里插入图片描述"><br>py3也出现了数据不准确的情况，由此我得出结论不管在哪个版本中，线程安全问题始终是存在的，只不过根据实验的结果来看，py3对线程的安全情况作了很多的改进，另外性能也做了优化。</p>
-<h2 id="3-0的改动"><a href="#3-0的改动" class="headerlink" title="3.0的改动"></a>3.0的改动</h2><p>对于这个问题，我查了一些网上的博客，认为3.2版本后修改GIL的策略问题可能是影响上述差异的原因：</p>
-<p>在2.0版本中，多线程的cpu分时轮换工作策略是根据执行100个操作码（opcode）后，进行切换另一个线程就行工作的，而下个线程是谁根据竟态有可能还是原来那个，而剩下等待的线程就会一直请求GIL锁，然后返回超时，然后重复下去，什么事都没有做，却不停的消耗着cpu的资源和能耗，直到达到固定的opcode，对于操作复杂的代码，那么等待的时间会更长，消耗的资源也会更大，这严重造成了cpu的浪费。</p>
-<p>直到3.0版本中，GIL的策略改成了timeout时间片段式，cpu在多线程中切换不靠操作代码的数量了，每个抢到GIL锁的线程工作时间是一定的，其余的线程就一直静默等待，也不会乱请求GIL锁，直到时间到会有线程把一个全局变量设置为1，然后大家竟态争抢GIL锁，进入下个线程的工作循环中。</p>
-<p>（以上过程，如要细究请查看GIL锁在3.2版本的改动日志。）</p>
-<p><strong>个人认为这个实验结果的差异应该是对于GIL锁策略改动的原因，可以看到的是这个改动是起到了优化作用，有效的提高的cpu的效率和性能，在一定范围上提升了多线程在共享数据上的安全能力。</strong></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/30/python-thread-notes/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -358,26 +356,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>  之前简单谈了对于git在合并方面的一些命令和差异，这次再说说几个常用的git命令，git功能异常强大，我掌握和使用的也不过是十之二三，所有这一切不过是为了让代码管理更方便，问题处理更合理。</p>
-<p><strong>git reset</strong><br>让代码回退回到某个commit id的位置，当出现合并冲突或者紧急bug的时候的处理方式。回到某个版本后，两个版本相差的代码部分会作为未提交保留，如果不需要可以使用git clean -xdf来清理这些文件。这两个命令一般配合使用。</p>
-<hr>
-<p><strong>git revert</strong><br>它和reset的差异在于，reset是回退某个版本作为当前head指向。而convert是把某个版本的提交改动失效，不会影响其他的提交内容。这个情况一般出现在某个提交有问题，reset的代价过大的时候，使用时也是要格外小心。</p>
-<hr>
-<p><strong>git stash</strong><br>这是个暂存缓存区的功能，如果在开发过程中涉及到切分支或者回滚，可以使用git stash来把编辑的内容暂时放入缓存区里面。等到处理完成，git stash list -&gt; git stash show 查看，git stash apply或者git stash pop恢复，git stash drop删除。这个命令可以暂时将所有改动暂存起来，而不会让改动丢失。</p>
-<hr>
-<p><strong>git remote</strong><br>对于github上的开源仓要进行代码贡献，我们一般把项目fork到自己的origin仓来，然后clone到本地来修改，最后push到自己origin仓，提交pr等待合并。但是如果开源仓的代码更新了，我们需要更新到本地时，需要添加远程地址：git remote add remote xxxx。这样更新remote原仓代码：git pull remote master，这样就把更新直接从原仓remote拉到了本地，而绕过了自己的origin仓，所以我们还要git push origin master更新来保持一致。</p>
-<hr>
-<p><strong>git log –oneline –graph</strong><br>查看提交线</p>
-<hr>
-<p><strong>git -u</strong><br>自动建立track upstream关系，就可以直接push pull不需要跟目的分支。相当于提前</p>
-<figure class="highlight shell"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --set-upstream-to mybranch origin mybranch</span><br></pre></td></tr></table></div></figure>
-
-<hr>
-<p><strong>git –allow-unrelated-histories</strong><br>使用git checkout -b branch到新分支，这时候我们如果要push到远程某分支，如果远端没有该名字的分支，那会创建一个同名分支。但是如果远端存在，push会报错表示这两个分支没关系，这时候我们先使用：</p>
-<figure class="highlight shell"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin branch --allow-unrelated-histories</span><br></pre></td></tr></table></div></figure>
-
-<p>忽略这份警告，然后再推送就会成功，当然也可以强行推送。如果我们一开始就知道要推到某个远程分支，可以直接git checkout -b branch origin/branch，拉的代码就是属于该分支的，否则如果分支之间有差异，推送就会有冲突。</p>
-
+          <p>  之前简单谈了对于git在合并方面的一些命令和差异，这次再说说几个常用的git命令，git功能异常强大，我掌握和使用的也不过是十之二三，所有这一切不过是为了让代码管理更方便，问题处理更合理。</p><p><strong>git reset</strong><br>让代码回退回到某个commit id的位置，当出现合并冲突或者紧急bug的时候的处理方式。回到某个版本后，两个版本相差的代码部分会作为未提交保留，如果不需要可以使用git clean -xdf来清理这些文件。这两个命令一般配合使用。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/18/git%E6%97%A5%E5%B8%B8%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -466,33 +453,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。</p>
-<p>b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。</p>
-<p><strong>btree</strong>有下面有几个特征:</p>
-<ol>
-<li>每个节点都有一个key,data。key就是索主键，data就是数据。</li>
-<li>如果不是终端节点，每个节点有n个分支。</li>
-<li>所有的终端节点都是在同一层。</li>
-<li>终端节点没有指针，其余节点是有指针的指向它的下一层数据范围。<br><img src="https://img-blog.csdnimg.cn/20201109222644329.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li>
-</ol>
-<hr>
-<p><strong>b+tree</strong>是在btree上的一种优化，它和btree的区别有下面两点。</p>
-<ol>
-<li>所有的终端节点才存有数据，其他节点只放指针和key。</li>
-<li>所有的终端节点用链表链接。<br><img src="https://img-blog.csdnimg.cn/20201109222749556.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li>
-</ol>
-<p>这样同样的页大小，间接放置的索引值增多，索引量加大，一次性读入内存的关键词加多，相对的io读写次数下降，效率就会提升。另外，终端链表可以快速查找范围数据也加快了查询。</p>
-<hr>
-<p>在建立索引时有不同的索引类型，对于不同的场景选择不同的索引，使其达到最好的索引效果。但并不是加索引检索一定会加快，也不是索引加的越多就越好，一切要从实际出发，db知识博大精深，我也只是管中窥豹，基于以上知识现在来看看几个索引的概念以及我对其使用方面的理解。</p>
-<p><strong>主键</strong></p>
-<p>这里先说下主键，主键是唯一索引的一种，并且不能有null的记录存在，但唯一索引并不一定是主键，唯一索引可以很多，并且允许为null。我们一般都手动设置id为主键，当然也可以设置其他字段。如果我们不设置主键，sql会从唯一主键中挑出一个没有null的字段作为主键；但是如果这也不满足，它会自己产生跟行号有关的数据作为主键，这个主键的内容我们可以用_rowid来查。</p>
-<p><strong>聚合索引</strong></p>
-<p>当主键产生后，会根据主键生成这张表的唯一一种聚合索引，他的物理顺序和索引顺序是相同的，所以有更快的检索速度。经常看到的就是用id作为聚合索引，但是根据业务，对于时间记录的表，会使用时间作为聚合索引也是不错的实践选择。但是更改聚合索引是比较麻烦的，每次更新会重新排序，所以不适合频繁更新的字段，对于自增型还是比较友好的。</p>
-<p><strong>非聚合索引</strong></p>
-<p>联合索引和普通索引，可以有多个。联合索引使用多个字段联合查询，遵循最左侧原理，使用频繁的字段靠左，可以提高速度。例如abc联合索引的本质就是分别创建a ab abc的索引，普通索引就是分别建立a b c的索引。当查a and b时，联合就比较快，而查b and c或者a or b时普通就比较快。</p>
-<p><strong>覆盖索引</strong></p>
-<p>对于主键的索引形式，就是主键key和数据关联一起的b+tree形式，而其他索引的结构是其他索引key和主键key的关联b+tree形式。所以一般索引需要通过本索引key先查到主键的key，然后再按主键查到数据。这整个过程叫“回表”，其中在最后一步找到了主键后的查询就叫做“覆盖索引”。<br><img src="https://img-blog.csdnimg.cn/20201117221553912.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-
+          <p>db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。</p><p>b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/09/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -588,22 +557,14 @@
 
       
           <p>Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。</p>
-<hr>
-<h2 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h2><p>git merge全称其实是git merge –ff, ff 就是fast forward。<br>在当前分支没有任何提交的情况下，它的指针着被合入分支的提交线一路下去可以走到被合入分支上，就像是指针快进到另一个分支上，它就像是快进一样，它不会产生任何merge commit，没办法查到合入的记录。(下右图所示)<br><img src="https://img-blog.csdnimg.cn/20201028231234337.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="图1"></p>
-<p>如果在上述情况下，要知道合入的细节，那就要用<strong>git merge –no-off</strong>。(如上左图所示)<br>它的作用就是把被合入分支的详细提交情况都显示出来，然后在最后产生一个merge的新commit。我们就可以清楚的看见这次的merge是怎么来的。</p>
-<p><strong>总结下，ff是head最终指向被合入分支的最后一次提交，而no-ff是指向他们的合入。这种情况下，多说一句，如果要reset，这两种方式的reset也是不同，ff方式的reset因为没有快进，所以是回到了被合入分支的commit点(并不是本分支的)，而–no-ff才是真正回到了当前分支的上一个提交点。</strong></p>
-<p>以上这种情况有前提的，前提是当前分支无任何提交。下面这种情况是我们绝大多数的merge情况。<br><img src="https://img-blog.csdnimg.cn/20201028231716354.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>在两个分支的最近公共点都有新的提交，这样git merge会将两个分支的最后节点做合并产生新的节点，并且生成一个merge的commit记录。它是严格按时间线记录了分支的提交记录，方便查找。但是缺点是在提交线上会分叉，很乱，而且不能直观的看到你的分支和目标分支的差距。</p>
-<hr>
-<h2 id="git-rebase"><a href="#git-rebase" class="headerlink" title="git rebase"></a><strong>git rebase</strong></h2><p>参考了很多的博客，rebase用变基是比较准确的。<strong>但是要遵守rebase黄金法则，no one shall rebase a shared branch.</strong><br><img src="https://img-blog.csdnimg.cn/20201028231911138.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="图3"></p>
-<p>rebase是先删除当前分支的提交，然后把被合入分支的所有提交都复制到本分支上，再顺着提交线把刚才删除的本分支提交重新生成一下基于这个之上，所以称为“变基”。rebase的本意是让当前的开发分支保持在一个基准上，这样在提交线上可以看到我们和主分支的head在哪个位置，而且可以把我们领先未合入的提交显示在最上面，整个过程不会产生merge的记录，所以自然也不会按时间线显示提交记录。</p>
-<p>另外rebase可以压缩commit请求，在提pr时候，可以git rebase head～压缩commit。</p>
-<hr>
-<p>对于这两个命令我也难以清楚的分清界限，但凡是存在的肯定是合理的。我认为还是取决于项目的使用和管理，分享下我平时的使用。</p>
-<ol>
-<li>从远端同步到master使用git pull –no-ff，清晰的记录每个人的提交和合入记录。</li>
-<li>在feature分支合并是用git rebase master，让自己的提交线变得简单。但如果是共同分支开发，使用merge。</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/10/28/git%E5%AE%9E%E8%B7%B5%E4%B8%80/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -692,17 +653,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。</p>
-<p>monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。</p>
-<p>在实际的运用中，经常会有调用底层类或者第三方包类时，对其功能不满足，从而需要改写的情况。这时候就可以对其进行patch。</p>
-<figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Foo.get_sum = get_sum</span><br><span class="line">Foo().get_sum</span><br></pre></td></tr></table></div></figure>
-
-<p>上面是对原类进行动态替换的一个简单例子，我们可以改原来类，代价比较大，而且不单单是去改原类增加if  else那么简单，我们需要对其进行分析抽象化，这才是对底层基类最合适的修改。<br>可能有人会问为什么不做子类，继承重新改方法。这是可行的，但是忽略了使用monkey patch的前提，尽可能的少改动代码，做动态的替换。</p>
-<p>其实，解决这个问题有很多的方法，如果我可以对基类重新分析重构，我会使用hook对这个case进行挂钩处理。但是在最快的时间最简单的处理模式，还是monkey patch合适一些。</p>
-<p><strong>它对那些临时提需求，想把各种效果看完而又不下单的客户来说是性价比最高的解决方法。</strong></p>
-<p>尽管monkey patch还能做很多的事情，有些也超出我所掌握的范畴。但在这个应用方面上，我其实是有一点的排斥的，我们不能因为有了这个”贴膏药”式的补救措施，就忽略了对模块架构的长远布局，“膏药”越贴越多，逻辑也会越改越混乱，这些对于一个系统来说是不会有任何提升的。</p>
-<p>反而我们对底层进行架构的时候就应该提前考虑他的通用性与扩展性，哪怕临时做了补丁，后面稳定了也方便对底层进行更新。这才是一个优秀程序员的良知和义务。</p>
-
+          <p>最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。</p><p>monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/25/%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -791,14 +750,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。</p>
-<p>注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：</p>
-<ol>
-<li>将order_by中的字段写入查询条件中(values或value_list).</li>
-<li>将order_by默认清空，添加order_by().（如果你不关心排序的话）</li>
-</ol>
-<hr>
-
+          <p>当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。</p><p>注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/13/distinct%E4%B8%8Eorder-by%E7%9A%84%E9%97%AE%E9%A2%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -888,23 +848,14 @@
 
       
           <p>前段时间看到朋友写的一份计划书单，深受感触。想到自己这么多年读书，一直是读了没有总结，也没有计划，而且只看自己感兴趣的领域，这会严重限制自身对世界的认识。所以今天想把后面要读的各个方面的好书写进去，有一本写一本，读一本划一本，一直更新下去。</p>
-<h2 id="自私的基因"><a href="#自私的基因" class="headerlink" title="自私的基因"></a><a href="https://zh.wikipedia.org/zh-hans/%E8%87%AA%E7%A7%81%E7%9A%84%E5%9F%BA%E5%9B%A0" target="_blank" rel="noopener">自私的基因</a></h2><blockquote>
-<p>所谓轮回就是：个体将生命信息以碱基对的形式写入基因的载体DNA分子传递给下一代。</p>
-</blockquote>
-<hr>
-<h2 id="解读基金-我的投资观和实践"><a href="#解读基金-我的投资观和实践" class="headerlink" title="解读基金-我的投资观和实践"></a><a href="https://book.douban.com/subject/2051332/" target="_blank" rel="noopener">解读基金-我的投资观和实践</a></h2><blockquote>
-<p>中年需要睡后收入。</p>
-</blockquote>
-<hr>
-<h2 id="好爸爸坏爸爸"><a href="#好爸爸坏爸爸" class="headerlink" title="好爸爸坏爸爸"></a><a href="https://book.douban.com/subject/1098105/" target="_blank" rel="noopener">好爸爸坏爸爸</a></h2><blockquote>
-<p>父亲是孩子成长过程中最重要的指导者。</p>
-</blockquote>
-<hr>
-<h2 id="侯卫东官场笔记"><a href="#侯卫东官场笔记" class="headerlink" title="侯卫东官场笔记"></a><del>侯卫东官场笔记</del></h2><blockquote>
-<p>开车犯困听得官场小说，写的不错。已看完，自己很有感触。</p>
-</blockquote>
-<hr>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/11/%E8%A6%81%E8%AF%BB%E7%9A%84%E4%B9%A6%E5%8D%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -993,11 +944,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。</p>
-<p><strong>@classmethod</strong><br>我的用法是：因为第一个参数传的是cls，可以用参数重新初始化一个新对象。这样做可以用于工厂方法生产新case的情况，避免了是否要创建新类的问题，而且写出来优雅，易于维护。另外，子类继承是可以改写，很方便，也符合类的多态性。</p>
-<p><strong>@staticmethod</strong><br>没有任何类方法是classmethod不能取代的，只说这么一句。</p>
-<hr>
-
+          <p>最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。</p><p><strong>@classmethod</strong><br>我的用法是：因为第一个参数传的是cls，可以用参数重新初始化一个新对象。这样做可以用于工厂方法生产新case的情况，避免了是否要创建新类的问题，而且写出来优雅，易于维护。另外，子类继承是可以改写，很方便，也符合类的多态性。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/02/05/%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1086,11 +1041,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>最近读了一本陈赓大将传记的书，本来想借这个机会想把二刷解放战争的感想也一起写下来，结果越写越多，跟陈赓将军都扯不上关系了。所以这次只想说陈赓大将。</p>
-<p>我刚开始了解解放史，说起来最厉害的就是林彪，三下江南四保临江，四平血战，两大战役，解放西南，一路从东北干到海南岛。随着深入了解，开始觉得粟裕才是战神，苏中七战七捷，孟良崮把全是美械的张灵甫的整编74师干了，解放济南，围歼碾庄，仗打的是惊险。接着了解了徐向前，黄埔一期，自他接手司令员后打的阎老西没出过太原，又觉得他厉害。但接着看的书多了才发现陈赓大将是多么的低调，真是传奇的一生。</p>
-<p>地主的孩子，却去闹革命，最后革地主的命。黄埔一期老大哥，黄埔三杰，解放战争俘虏的国军黄埔系将军，见到他第一句话就是老大哥好。救过蒋介石的命，所以有黄埔说法，“蒋先云的笔,贺衷寒的嘴,陈赓的腿”。党内老资历，性格好，谁见谁服，干过白区特务，当过红区将军。国内打鬼子、国军，越南打法军，朝鲜打英美。五常里面就差没跟老毛子干了。后来又创办哈工大，造导弹，真是能文能武。</p>
-<p>他的一生就是唯物主义辩证的一生。</p>
-
+          <p>最近读了一本陈赓大将传记的书，本来想借这个机会想把二刷解放战争的感想也一起写下来，结果越写越多，跟陈赓将军都扯不上关系了。所以这次只想说陈赓大将。</p><p>我刚开始了解解放史，说起来最厉害的就是林彪，三下江南四保临江，四平血战，两大战役，解放西南，一路从东北干到海南岛。随着深入了解，开始觉得粟裕才是战神，苏中七战七捷，孟良崮把全是美械的张灵甫的整编74师干了，解放济南，围歼碾庄，仗打的是惊险。接着了解了徐向前，黄埔一期，自他接手司令员后打的阎老西没出过太原，又觉得他厉害。但接着看的书多了才发现陈赓大将是多么的低调，真是传奇的一生。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/10/%E9%99%88%E8%B5%93%E5%A4%A7%E5%B0%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1174,7 +1133,6 @@
 
       
           <p><img src="/2019/11/03/enjoy-this-moment/enjoy.jpg" alt="i love this moment"></p>
-
       
     </div>
 

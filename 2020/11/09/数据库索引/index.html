@@ -51,13 +51,13 @@
   };
 </script>
 
-  <meta name="description" content="db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。 b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。 btree有下面有">
+  <meta name="description" content="db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
 <meta name="keywords" content="索引,数据库,数据结构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谈谈我对数据库索引的理解和应用">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;11&#x2F;09&#x2F;%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。 b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。 btree有下面有">
+<meta property="og:description" content="db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222644329.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201109222749556.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
@@ -258,8 +258,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。</p>
-<p>b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。</p>
+        <p>db的知识真的是又深又广，本着务实的态度，只简单谈谈我对数据库的索引一些方面的理解。说道索引，要简单说说索引的结构也就是b-tree的一些知识。</p><p>b+tree和btree是innodb磁盘等外存贮时查找的一种结构，因为磁盘读写涉及到大量的io，为了需要加快读写速度避免大量io操作，因此设计了一种平衡二叉树，平衡的意思就是树的每个分支的高度差保证在1之内，这样可以减小查找复杂度。</p><a id="more"></a>
+
 <p><strong>btree</strong>有下面有几个特征:</p>
 <ol>
 <li>每个节点都有一个key,data。key就是索主键，data就是数据。</li>

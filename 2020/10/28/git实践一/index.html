@@ -51,13 +51,13 @@
   };
 </script>
 
-  <meta name="description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。  git mergegit merge全称其实是git merge –ff, ff 就是fast forward。在当前分支没有任何提交的情况下，它的指针着被合入分支的提交线一">
+  <meta name="description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。">
 <meta name="keywords" content="git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git合并分支的理解和应用">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;10&#x2F;28&#x2F;git%E5%AE%9E%E8%B7%B5%E4%B8%80&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。  git mergegit merge全称其实是git merge –ff, ff 就是fast forward。在当前分支没有任何提交的情况下，它的指针着被合入分支的提交线一">
+<meta property="og:description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231234337.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231716354.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
@@ -264,7 +264,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。</p>
+        <p>Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。</p><a id="more"></a>
 <hr>
 <h2 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h2><p>git merge全称其实是git merge –ff, ff 就是fast forward。<br>在当前分支没有任何提交的情况下，它的指针着被合入分支的提交线一路下去可以走到被合入分支上，就像是指针快进到另一个分支上，它就像是快进一样，它不会产生任何merge commit，没办法查到合入的记录。(下右图所示)<br><img src="https://img-blog.csdnimg.cn/20201028231234337.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center" alt="图1"></p>
 <p>如果在上述情况下，要知道合入的细节，那就要用<strong>git merge –no-off</strong>。(如上左图所示)<br>它的作用就是把被合入分支的详细提交情况都显示出来，然后在最后产生一个merge的新commit。我们就可以清楚的看见这次的merge是怎么来的。</p>

@@ -51,13 +51,13 @@
   };
 </script>
 
-  <meta name="description" content="最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。 monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。 在实际的运用中，经常会有调用底层类或者第三方包类时，对其功能不满足，从而需要改写的情况。这时候就可以">
+  <meta name="description" content="最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。">
 <meta name="keywords" content="python,设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈我对python中monkey patch的理解">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;09&#x2F;25&#x2F;%E6%B5%85%E8%B0%88%E6%88%91%E5%AF%B9python%E4%B8%AD%E7%9A%84monkey-patch&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。 monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。 在实际的运用中，经常会有调用底层类或者第三方包类时，对其功能不满足，从而需要改写的情况。这时候就可以">
+<meta property="og:description" content="最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2020-12-03T14:09:12.308Z">
 <meta name="twitter:card" content="summary">
@@ -254,10 +254,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。</p>
-<p>monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。</p>
+        <p>最近也在帮助朋友处理一些问题的时候，对这个功能有有了进一步的了解。</p><p>monkey patch是从“游击队”的英文guerrilla里转变过来的，他表面的意思其实和用法一点都不相关。他是一种处理机制，一种紧急的动态热修补很好的方法。改动量小，处理比较快速，适合于线上需求快速变化而不动底层的解决方案。</p><a id="more"></a>
+
 <p>在实际的运用中，经常会有调用底层类或者第三方包类时，对其功能不满足，从而需要改写的情况。这时候就可以对其进行patch。</p>
-<figure class="highlight python"><div class="mdui-table-fluid theme-post__card__table--flat"><table class="mdui-table mdui-table-hoverable "><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Foo.get_sum = get_sum</span><br><span class="line">Foo().get_sum</span><br></pre></td></tr></table></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Foo.get_sum = get_sum</span><br><span class="line">Foo().get_sum</span><br></pre></td></tr></table></figure>
 
 <p>上面是对原类进行动态替换的一个简单例子，我们可以改原来类，代价比较大，而且不单单是去改原类增加if  else那么简单，我们需要对其进行分析抽象化，这才是对底层基类最合适的修改。<br>可能有人会问为什么不做子类，继承重新改方法。这是可行的，但是忽略了使用monkey patch的前提，尽可能的少改动代码，做动态的替换。</p>
 <p>其实，解决这个问题有很多的方法，如果我可以对基类重新分析重构，我会使用hook对这个case进行挂钩处理。但是在最快的时间最简单的处理模式，还是monkey patch合适一些。</p>
