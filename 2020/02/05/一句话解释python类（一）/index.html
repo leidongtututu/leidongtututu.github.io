@@ -51,13 +51,13 @@
   };
 </script>
 
-  <meta name="description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。@classmethod我的用法是：因为第一个参数传的是cls，可以用参数重新初始化一个新对象。这样做可以用于工厂方法生产新case的情况，避免了是否要创建新类的问题，而且写出来优雅，易于维护。另外，子">
+  <meta name="description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。 @classmethod我的用法是：因为第一个参数传的是cls，可以用参数重新初始化一个新对象。这样做可以用于工厂方法生产新case的情况，避免了是否要创建新类的问题，而且写出来优雅，易于维护。另外，">
 <meta name="keywords" content="python,启发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈类方法的应用">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;02&#x2F;05&#x2F;%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。@classmethod我的用法是：因为第一个参数传的是cls，可以用参数重新初始化一个新对象。这样做可以用于工厂方法生产新case的情况，避免了是否要创建新类的问题，而且写出来优雅，易于维护。另外，子">
+<meta property="og:description" content="最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。 @classmethod我的用法是：因为第一个参数传的是cls，可以用参数重新初始化一个新对象。这样做可以用于工厂方法生产新case的情况，避免了是否要创建新类的问题，而且写出来优雅，易于维护。另外，">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2020-12-03T14:18:03.350Z">
 <meta name="twitter:card" content="summary">
@@ -254,8 +254,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。</p><p><strong>@classmethod</strong><br>我的用法是：因为第一个参数传的是cls，可以用参数重新初始化一个新对象。这样做可以用于工厂方法生产新case的情况，避免了是否要创建新类的问题，而且写出来优雅，易于维护。另外，子类继承是可以改写，很方便，也符合类的多态性。</p><a id="more"></a>
-
+        <p>最近疫情严重，出不了门，在家没事翻翻effective python。看到类方法，类方法既可以用类点方法，也可以用实例点方法。之前也只是简单用用没总结过，这次深入理解让我有些感触，想分享下其他用法。</p>
+<p><strong>@classmethod</strong><br>我的用法是：因为第一个参数传的是cls，可以用参数重新初始化一个新对象。这样做可以用于工厂方法生产新case的情况，避免了是否要创建新类的问题，而且写出来优雅，易于维护。另外，子类继承是可以改写，很方便，也符合类的多态性。</p>
 <p><strong>@staticmethod</strong><br>没有任何类方法是classmethod不能取代的，只说这么一句。</p>
 <hr>
 

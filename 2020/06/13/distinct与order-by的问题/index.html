@@ -51,13 +51,13 @@
   };
 </script>
 
-  <meta name="description" content="当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：">
+  <meta name="description" content="当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。 注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：">
 <meta name="keywords" content="python,django,ORM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单谈谈django ORM中distinct与order by的应用">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;06&#x2F;13&#x2F;distinct%E4%B8%8Eorder-by%E7%9A%84%E9%97%AE%E9%A2%98&#x2F;index.html">
 <meta property="og:site_name" content="ThorRay&#39;s Story">
-<meta property="og:description" content="当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：">
+<meta property="og:description" content="当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。 注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2020-12-03T14:12:11.504Z">
 <meta name="twitter:card" content="summary">
@@ -254,8 +254,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。</p><p>注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：</p><a id="more"></a>
-
+        <p>当在查询的时候使用DISTINCT时，如果要使用order by进行排序，必须把order by中进行排序的字段在select中进行查询，否则出错。</p>
+<p>注意：在model定义的时候，可能会对order提前定义，虽然查询中没有写order_by，但是会默认按定义排序，如果这时候我们使用了DISTINCT，query的结果并非准确，数据会出现各种问题，可能会重复，排序也不对，这时候我们会有两个解决办法：</p>
 <ol>
 <li>将order_by中的字段写入查询条件中(values或value_list).</li>
 <li>将order_by默认清空，添加order_by().（如果你不关心排序的话）</li>
