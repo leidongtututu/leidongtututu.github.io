@@ -51,16 +51,18 @@
   };
 </script>
 
-  <meta name="description" content="Stay hungry Stay foolish.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="thorraythorray&#39;s Story">
-<meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;archives&#x2F;2020&#x2F;02&#x2F;index.html">
+  <meta name="description" content="支付宝开放平台的python sdk中没有支持csr模式的认证和请求，而且从官方文档中看到的价签步骤过于简单，有很多问题不能解释清楚。证书证书加密就是就是rsa加密更加高级可信的形式。什么是证书，是一种数字签名的声明，它将公钥的值绑定到持有对应私钥的个人、设备或服务的身份。大多数普通用途的证书基于 X.509v3 证书标准。那就清楚了，支付宝平台助手的csr工具会让你先填一些信息，这些信息就是证书">
+<meta name="keywords" content="python,第三方平台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="支付宝开放平台使用csr证书认证的python调用">
+<meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;12&#x2F;30&#x2F;alipay-csr&#x2F;index.html">
 <meta property="og:site_name" content="thorraythorray&#39;s Story">
-<meta property="og:description" content="Stay hungry Stay foolish.">
+<meta property="og:description" content="支付宝开放平台的python sdk中没有支持csr模式的认证和请求，而且从官方文档中看到的价签步骤过于简单，有很多问题不能解释清楚。证书证书加密就是就是rsa加密更加高级可信的形式。什么是证书，是一种数字签名的声明，它将公钥的值绑定到持有对应私钥的个人、设备或服务的身份。大多数普通用途的证书基于 X.509v3 证书标准。那就清楚了，支付宝平台助手的csr工具会让你先填一些信息，这些信息就是证书">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-12-30T13:26:54.252Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://www.thorray.com/archives/2020/02/">
+<link rel="canonical" href="http://www.thorray.com/2020/12/30/alipay-csr/">
 
 
 <script id="page-configurations">
@@ -68,13 +70,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>Archive | thorraythorray's Story</title>
+  <title>支付宝开放平台使用csr证书认证的python调用 | thorraythorray's Story</title>
   
 
 
@@ -178,53 +180,126 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://www.thorray.com/2020/12/30/alipay-csr/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://profile.csdnimg.cn/0/9/C/3_nibuyaoshiwang">
+      <meta itemprop="name" content="thorraythorray">
+      <meta itemprop="description" content="Stay hungry Stay foolish.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="thorraythorray's Story">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          支付宝开放平台使用csr证书认证的python调用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-12-30 21:22:20 / Modified: 21:26:54" itemprop="dateCreated datePublished" datetime="2020-12-30T21:22:20+08:00">2020-12-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+            </span>
+
+          
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">Um..! 12 posts in total. Keep on posting.</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/12/30/alipay-csr/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/12/30/alipay-csr/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2020</h1>
+        <p>支付宝开放平台的python sdk中没有支持csr模式的认证和请求，而且从官方文档中看到的价签步骤过于简单，有很多问题不能解释清楚。</p><h2 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h2><p>证书加密就是就是rsa加密更加高级可信的形式。什么是证书，是一种数字签名的声明，它将公钥的值绑定到持有对应私钥的个人、设备或服务的身份。大多数普通用途的证书基于 X.509v3 证书标准。那就清楚了，支付宝平台助手的csr工具会让你先填一些信息，这些信息就是证书的目的地，然后用rsa256生成一份不对称的秘钥，公钥写入证书，私钥需要留下来，这样限于你某个组织以及域名的证书就完成了。这时候还没完，支付宝会让你下载一个叫支付宝公钥的东西，这个和我们刚上传的应用公钥是两回事。接着下面看。</p><a id="more"></a>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>我们向支付宝请求的时候，会用自己的私钥加密，这个秘文是和私钥唯一绑定的，只有对应的公钥才能解开，所以支付宝用我们传上去的公钥解开成明文，拿到请求数据。但是证书的参数里面还有一个支付宝公钥sn和根证书sn的参数，我的理解是这是支付宝需要二次校验，从根证书上验证安全。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>我参照java的证书调用方式以及网上一些博客和资料，简单构造了csr方式的python访问脚本。可以移植到工程文件中，修改路径进行填补。</p>
+<p><a href="https://github.com/thorraythorray/alipay-python-csr-sdk" target="_blank" rel="noopener">https://github.com/thorraythorray/alipay-python-csr-sdk</a></p>
+<p>当前只写了获取临时授权码的api，登录授权后就可以获取到访问令牌。而且对于根证书的sn获取python的方法有问题，当前因为这个值长期不会变，随意暂时写死。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-02-05T12:59:45+08:00"
-              content="2020-02-05">
-          02-05
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B9%B3%E5%8F%B0/" rel="tag"># 第三方平台</a>
+          </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2020/02/05/%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8Apython%E7%B1%BB%EF%BC%88%E4%B8%80%EF%BC%89/" itemprop="url">
-            <span itemprop="name">浅谈类方法的应用</span>
-          </a>
-      </h2>
+        
 
-    </header>
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/12/30/mixin%E6%B7%B7%E5%90%88%E7%B1%BB/" rel="next" title="简谈python中的mixin混合类">
+                  <i class="fa fa-chevron-left"></i> 简谈python中的mixin混合类
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-
-    </div>
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
         </div>
           
@@ -249,6 +324,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#证书"><span class="nav-number">1.</span> <span class="nav-text">证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -388,6 +464,27 @@
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: {page: {
+            url: "http://www.thorray.com/2020/12/30/alipay-csr/",
+            identifier: "2020/12/30/alipay-csr/",
+            title: "支付宝开放平台使用csr证书认证的python调用"
+          }
+        }
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://thorray.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    window.addEventListener('load', loadComments, false);
 </script>
 
 </body>

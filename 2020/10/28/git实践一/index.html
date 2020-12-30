@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
-  <link rel="alternate" href="/atom.xml" title="ThorRay's Story" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="thorraythorray's Story" type="application/atom+xml">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -56,13 +56,13 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="git合并分支的理解和应用">
 <meta property="og:url" content="http:&#x2F;&#x2F;www.thorray.com&#x2F;2020&#x2F;10&#x2F;28&#x2F;git%E5%AE%9E%E8%B7%B5%E4%B8%80&#x2F;index.html">
-<meta property="og:site_name" content="ThorRay&#39;s Story">
+<meta property="og:site_name" content="thorraythorray&#39;s Story">
 <meta property="og:description" content="Git的合并分支包括合并远程分支和合并本地分支，其实本意是一样的。只不过拉远端分支的时候多了一步git fetch，就是把所有分支的代码从云拉到本地缓存，但是不做合并。关键是合并，说到合并的时候就要说到这最纠结的两兄弟了。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231234337.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231716354.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231911138.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:updated_time" content="2020-12-03T14:10:58.947Z">
+<meta property="og:updated_time" content="2020-12-30T13:27:31.405Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;img-blog.csdnimg.cn&#x2F;20201028231234337.png?x-oss-process=image&#x2F;watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25pYnV5YW9zaGl3YW5n,size_16,color_FFFFFF,t_70#pic_center">
 
@@ -80,7 +80,7 @@
   };
 </script>
 
-  <title>git合并分支的理解和应用 | ThorRay's Story</title>
+  <title>git合并分支的理解和应用 | thorraythorray's Story</title>
   
 
 
@@ -124,7 +124,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">ThorRay's Story</span>
+        <span class="site-title">thorraythorray's Story</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -192,13 +192,13 @@
     <link itemprop="mainEntityOfPage" href="http://www.thorray.com/2020/10/28/git%E5%AE%9E%E8%B7%B5%E4%B8%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://tva3.sinaimg.cn/crop.0.0.180.180.180/bdf1b9aajw1e8qgp5bmzyj2050050aa8.jpg?KID=imgbed,tva&Expires=1572770656&ssig=EVz46Ntw0c">
-      <meta itemprop="name" content="ThorRay">
+      <meta itemprop="image" content="https://profile.csdnimg.cn/0/9/C/3_nibuyaoshiwang">
+      <meta itemprop="name" content="thorraythorray">
       <meta itemprop="description" content="Stay hungry Stay foolish.">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ThorRay's Story">
+      <meta itemprop="name" content="thorraythorray's Story">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-03 22:10:58" itemprop="dateModified" datetime="2020-12-03T22:10:58+08:00">2020-12-03</time>
+                <time title="Modified: 2020-12-30 21:27:31" itemprop="dateModified" datetime="2020-12-30T21:27:31+08:00">2020-12-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,12 +229,6 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index">
                     <span itemprop="name">技术</span>
-                  </a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/%E7%AE%A1%E7%90%86/" itemprop="url" rel="index">
-                    <span itemprop="name">管理</span>
                   </a>
                 </span>
             </span>
@@ -358,9 +352,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person" style="margin-top: 100px;">
-  <img class="site-author-image" itemprop="image" alt="ThorRay"
-    src="https://tva3.sinaimg.cn/crop.0.0.180.180.180/bdf1b9aajw1e8qgp5bmzyj2050050aa8.jpg?KID=imgbed,tva&Expires=1572770656&ssig=EVz46Ntw0c">
-  <p class="site-author-name" itemprop="name">ThorRay</p>
+  <img class="site-author-image" itemprop="image" alt="thorraythorray"
+    src="https://profile.csdnimg.cn/0/9/C/3_nibuyaoshiwang">
+  <p class="site-author-name" itemprop="name">thorraythorray</p>
   <div class="site-description" itemprop="description" style="margin-top: 10px;">Stay hungry Stay foolish.</div>
 </div>
 <div class="site-state-wrap motion-element" style="margin-top: 20px;">
@@ -368,20 +362,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -426,7 +420,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">ThorRay</span>
+  <span class="author" itemprop="copyrightHolder">thorraythorray</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
   </div>
